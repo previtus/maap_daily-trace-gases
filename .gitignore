@@ -1,0 +1,9 @@
+input/*
+output/*
+*-checkpoint*
+
+.idea/
+
+*.log
+
+.DS_STORE

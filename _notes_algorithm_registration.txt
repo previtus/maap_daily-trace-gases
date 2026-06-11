@@ -1,0 +1,25 @@
+== NASA MAAP ==
+- followed instructions on https://docs.maap-project.org/en/latest/technical_tutorials/dps_tutorial/dps_tutorial_demo.html
+- here are notes for algorithm registration
+
+Repository URL:
+https://github.com/previtus/maap_daily-trace-gases.git
+
+Repository Branch:
+main
+
+Run Command:
+maap_daily-trace-gases/run-main.sh
+
+Build Command:
+maap_daily-trace-gases/run-build.sh
+
+General Information
+Algorithm Name: vitek_trace_gases
+Disk Space (GB): 5
+Resource Allocation: maap-dps-worker-32gb
+Container URL: mas.maap-project.org/root/maap-workspaces/2i2c/pangeo:v5.1.0
+
+Positional Inputs
+    emit_scene_name (e.g. EMIT_L1B_RAD_001_20231223T123029_2335708_008)
+    gas (e.g. ch4)
