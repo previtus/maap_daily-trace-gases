@@ -85,12 +85,14 @@ if __name__ == '__main__':
     mf_product = ""
     if gas == "ch4":
         mf_product = "ch4-wmf.tif"
+        pred_product = "prediction_ensemble_scored.geojson"
     else:
         mf_product = gas+"-cmf.tif"
+        pred_product = gas+"-prediction_scored.geojson"
 
     raster_path_ = os.path.join(results_folder, tile_ID, mf_product)
     raster_path = os.path.join(results_folder, tile_ID, tile_ID+".tif")
-    vector_path_ = os.path.join(results_folder, tile_ID, "prediction_ensemble_scored.geojson")
+    vector_path_ = os.path.join(results_folder, tile_ID, pred_product)
     vector_path = os.path.join(results_folder, tile_ID, tile_ID+".geojson")
 
     os.rename(raster_path_, raster_path)
