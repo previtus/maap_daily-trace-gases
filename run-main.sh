@@ -23,6 +23,11 @@ python ${BASEDIR}/daily-trace-gases/detect_trace_gas.py -tile $1 -gas $2 -basedi
 
 echo "Checkpoint after execution, from bash start took - $((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
 
+echo "upload command run!"
+python ${BASEDIR}/daily-trace-gases/prepare_and_upload_results.py -tile $1 -gas $2 -basedir ${BASEDIR}/daily-trace-gases/ -results_folder ${OUTPUTDIR}
+
+echo "Checkpoint after upload, from bash start took - $((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+
 echo "---"
 echo "ls ${OUTPUTDIR}/*"
 ls ${OUTPUTDIR}/*
