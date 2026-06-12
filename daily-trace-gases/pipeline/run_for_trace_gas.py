@@ -8,6 +8,7 @@ from utils.rio_utils import file_exists
 from pipeline.A_matched_filter.run_cmf_for_target_signatures import run_cmf_using_target_file_tile_ID
 from pipeline.B_ml_segmentation.run_models_other_gases import run_models_main_other_gases
 from pipeline.C_plume_scoring.run_scoring_for_other_gases import score_trace_gas
+from timeit import default_timer as timer
 
 def run_for_trace_gas(gas, tile_ID, results_folder, raws_folder):
     cmf_file_name = gas+"-cmf.tif"
@@ -35,13 +36,20 @@ def run_for_trace_gas(gas, tile_ID, results_folder, raws_folder):
     # 1 GET CMF
     print("----------------------------------------")
     print("Step 1: getting data, computing CMF")
+    start = timer()
+
     if not file_exists(cmf_file_path):
         result_cmf_file = run_cmf_using_target_file_tile_ID(tile_ID, gases[gas], target_file, raws_folder)
         shutil.copy(result_cmf_file, cmf_file_path)
 
+    end = timer()
+    time = (end - start)
+    print("^^^ Step 1 took "+str(time)+"s ("+str(time/60.0)+"min)")
+
     # 2 MODEL PREDICTION
     print("----------------------------------------")
     print("Step 2: model prediction")
+    start = timer()
 
     load_checkpoint = [
         os.path.join(models_storage(), "trace_UNET_CMF", "UNET_CMF_R1_best_vf1_ep14.pt"),
@@ -56,10 +64,19 @@ def run_for_trace_gas(gas, tile_ID, results_folder, raws_folder):
                                 cmf_path=cmf_file_path,
                                 load_checkpoint=load_checkpoint,
                                 )
+    end = timer()
+    time = (end - start)
+    print("^^^ Step 1 took "+str(time)+"s ("+str(time/60.0)+"min)")
 
     # 3 SCORE PREDICTIONS
     print("----------------------------------------")
     print("Step 3: scoring predictions")
+    start = timer()
+
     saved_scored_vectors_path = score_trace_gas(gas, tile_ID, target_file, results_folder, raws_folder)
+
+    end = timer()
+    time = (end - start)
+    print("^^^ Step 1 took "+str(time)+"s ("+str(time/60.0)+"min)")
 
     return saved_scored_vectors_path

@@ -54,3 +54,4 @@ if __name__ == '__main__':
     end = timer()
     time = (end - start)
     print("This run took "+str(time)+"s ("+str(time/60.0)+"min)")
+    # This run took 106.00505466899995s (1.766750911149999min)
