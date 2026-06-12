@@ -16,6 +16,7 @@ def run_for_ch4(tile_ID, results_folder, raws_folder):
     end = timer()
     time = (end - start)
     print("^^^ Step 1 took "+str(time)+"s ("+str(time/60.0)+"min)")
+    # 54.571396014000015s (0.9095232669000003min)
 
     # 2 MODEL PREDICTION
     print("----------------------------------------")
@@ -25,6 +26,7 @@ def run_for_ch4(tile_ID, results_folder, raws_folder):
     end = timer()
     time = (end - start)
     print("^^^ Step 2 took "+str(time)+"s ("+str(time/60.0)+"min)")
+    # 20.015326303999984s (0.33358877173333307min)
 
     # 3 SCORE PREDICTIONS
     print("----------------------------------------")
@@ -34,6 +36,7 @@ def run_for_ch4(tile_ID, results_folder, raws_folder):
     end = timer()
     time = (end - start)
     print("^^^ Step 3 took "+str(time)+"s ("+str(time/60.0)+"min)")
+    # 91.44824060000002s (1.5241373433333336min)
 
     return saved_scored_vectors_path
 

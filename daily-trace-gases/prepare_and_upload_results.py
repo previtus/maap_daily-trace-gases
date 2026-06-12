@@ -47,12 +47,14 @@ def hf_upload_with_retry(files_to_upload, target_folder, gas, tile_ID, hf_repo, 
                 commit_message=f"Upload results from EMIT scene {tile_ID} and gas {gas}",
                 repo_type="dataset"
             )
-            print(f"Success: Job {job_id} uploaded successfully.")
+            print(f"Success: Job uploaded successfully.")
             break  # Exit loop on success
 
         except Exception as e:
+            print(e)
+
             if attempt == max_retries - 1:
-                print(f"Error: Job {job_id} failed after {max_retries} attempts.")
+                print(f"Error: Job failed after {max_retries} attempts.")
                 raise e
 
             # Generates a random wait time (e.g., between 5 and 30 seconds)
@@ -67,6 +69,8 @@ def tile_name_to_date(tile_name = "EMIT_L1B_RAD_001_20260525T035831_2614503_008"
     return date_str[0:4] + "-" + date_str[4:6] + "-" + date_str[6:]
 
 if __name__ == '__main__':
+    start = timer()
+
     args = parser.parse_args()
 
     # Paths and args:
@@ -103,3 +107,7 @@ if __name__ == '__main__':
     print("Will try uploading these files: ", files_to_upload, "into", target_folder)
 
     hf_upload_with_retry(files_to_upload, target_folder, gas, tile_ID, hf_repo, max_retries = 10)
+
+    end = timer()
+    time = (end - start)
+    print("Upload itself took "+str(time)+"s ("+str(time/60.0)+"min)")
