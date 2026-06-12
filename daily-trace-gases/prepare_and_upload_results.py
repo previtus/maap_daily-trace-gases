@@ -100,4 +100,6 @@ if __name__ == '__main__':
 
     target_folder = gas+"/"+tile_name_to_date(tile_ID)
 
+    print("Will try uploading these files: ", files_to_upload, "into", target_folder)
+
     hf_upload_with_retry(files_to_upload, target_folder, gas, tile_ID, hf_repo, max_retries = 10)
