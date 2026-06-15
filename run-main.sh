@@ -19,7 +19,7 @@ duration=$SECONDS
 echo "Init before code execution from bash start took - $((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
 
 echo "daily-trace-gases codebase run!"
-python ${BASEDIR}/daily-trace-gases/detect_trace_gas.py -tile $1 -gas $2 -basedir ${BASEDIR}/daily-trace-gases/ -results_folder ${OUTPUTDIR}
+python ${BASEDIR}/daily-trace-gases/detect_trace_gases.py -tile $1 -gas $2 -basedir ${BASEDIR}/daily-trace-gases/ -results_folder ${OUTPUTDIR}
 
 echo "Checkpoint after execution, from bash start took - $((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
 

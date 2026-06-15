@@ -19,7 +19,7 @@ maap = MAAP()
 os.environ["HF_TOKEN"] = maap.secrets.get_secret("HF_TOKEN")
 
 parser = argparse.ArgumentParser(description='Codebase: Results uploader.')
-parser.add_argument('-gas', help='Which trace gas? (options: ch4, nh3, no2 and co)', default='ch4')
+parser.add_argument('-gases', help='Which trace gases? Multiple are possible, separated by comma (options: ch4, nh3, no2 and co)', default='ch4,nh3,no2,co')
 parser.add_argument('-tile', help='Which EMIT tile to run? (e.g. EMIT_L1B_RAD_001_20260102T143123_2600209_005)', default='EMIT_L1B_RAD_001_20260102T143123_2600209_005')
 parser.add_argument('-results_folder', help='Folder to save results to', default='./run_data/results')
 parser.add_argument('-basedir', help='Location of this code', default='daily-trace-gases/')
@@ -68,18 +68,7 @@ def tile_name_to_date(tile_name = "EMIT_L1B_RAD_001_20260525T035831_2614503_008"
     # 20260525
     return date_str[0:4] + "-" + date_str[4:6] + "-" + date_str[6:]
 
-if __name__ == '__main__':
-    start = timer()
-
-    args = parser.parse_args()
-
-    # Paths and args:
-    tile_ID = args.tile
-    gas = args.gas
-    basedir = args.basedir
-    set_basedir(basedir)
-    results_folder = args.results_folder
-
+def upload_gas(gas, results_folder, tile_ID, hf_repo):
     # Rename and upload results
     files_to_upload = []
     mf_product = ""
@@ -98,11 +87,10 @@ if __name__ == '__main__':
     os.rename(raster_path_, raster_path)
     os.rename(vector_path_, vector_path)
 
+    # TODO: Compress tif?
+
     files_to_upload.append(raster_path)
     files_to_upload.append(vector_path)
-
-    # HF repo: https://huggingface.co/datasets/previtus/jpl_trace_gases_archive
-    hf_repo = "previtus/jpl_trace_gases_archive"
 
     target_folder = gas+"/"+tile_name_to_date(tile_ID)
 
@@ -113,3 +101,28 @@ if __name__ == '__main__':
     end = timer()
     time = (end - start)
     print("Upload itself took "+str(time)+"s ("+str(time/60.0)+"min)")
+
+if __name__ == '__main__':
+    start = timer()
+
+    args = parser.parse_args()
+
+    # HF repo: https://huggingface.co/datasets/previtus/jpl_trace_gases_archive
+    hf_repo = "previtus/jpl_trace_gases_archive"
+
+    # Paths and args:
+    tile_ID = args.tile
+    gases = args.gases
+    basedir = args.basedir
+    set_basedir(basedir)
+    results_folder = args.results_folder
+
+    # TODO: maybe could instead add together the lists of files to upload
+    if "," in gases:
+        gases_list = gases.split(",")
+        for gas in gases_list:
+            upload_gas(gas, results_folder, tile_ID, hf_repo)
+
+    else:
+        # or it's just a single one
+        upload_gas(gases, results_folder, tile_ID, hf_repo)
