@@ -7,6 +7,7 @@ import argparse
 from utils.rio_utils import mkdir
 from utils.paths import set_basedir
 from utils.paths import codebase_folder, models_storage
+from utils.compression_utils import compress_mf_tif
 import os
 import time
 import random
@@ -84,10 +85,10 @@ def upload_gas(gas, results_folder, tile_ID, hf_repo):
     vector_path_ = os.path.join(results_folder, tile_ID, pred_product)
     vector_path = os.path.join(results_folder, tile_ID, tile_ID+".geojson")
 
-    os.rename(raster_path_, raster_path)
+    # os.rename(raster_path_, raster_path)
+    # Compress tif
+    compress_mf_tif(raster_path_, raster_path)
     os.rename(vector_path_, vector_path)
-
-    # TODO: Compress tif?
 
     files_to_upload.append(raster_path)
     files_to_upload.append(vector_path)
