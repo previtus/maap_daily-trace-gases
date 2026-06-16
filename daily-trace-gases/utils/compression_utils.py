@@ -16,22 +16,21 @@ def compress_mf_tif(input_path, output_path):
     #     "co": [0, 12_000],
     # }
 
-    # 1. Open original file
     with rasterio.open(input_path) as src:
         float_data = src.read(1)
-        meta = src.meta.copy()  # This copies all georeferencing metadata
+        meta = src.meta.copy()
 
-        # 2. Rescale float data to 0-255 range
+        # mask no data to 0 (important, before the min/max)
+        float_data = np.where(float_data == meta["nodata"], 0.0, float_data)
+
+        # rescale to 0-255
         min_val, max_val = np.nanmin(float_data), np.nanmax(float_data)
         if max_val == min_val: max_val += 1
 
         rescaled = 255 * (float_data - min_val) / (max_val - min_val)
         uint8_data = np.nan_to_num(rescaled).astype(np.uint8)
 
-        # set no data areas to 0
-        uint8_data = np.where(float_data == meta["nodata"], 0, uint8_data)
-
-        # 3. Update profile for maximum JPEG compression
+        # set compression
         meta.update(
             dtype=rasterio.uint8,
             count=1,
@@ -40,6 +39,5 @@ def compress_mf_tif(input_path, output_path):
             predictor=2
         )
 
-        # 4. Write out the tiny, georeferenced file
         with rasterio.open(output_path, "w", **meta) as dst:
             dst.write(uint8_data, 1)
