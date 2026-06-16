@@ -30,6 +30,9 @@ def compress_mf_tif(input_path, output_path):
         rescaled = 255 * (float_data - min_val) / (max_val - min_val)
         uint8_data = np.nan_to_num(rescaled).astype(np.uint8)
 
+        # then still set those to 0 (otherwise they were
+        uint8_data = np.where(float_data == meta["nodata"], 0, uint8_data).astype(np.uint8)
+
         # set compression
         meta.update(
             dtype=rasterio.uint8,
