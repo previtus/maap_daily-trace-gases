@@ -11,3 +11,5 @@ output/*
 __pycache__/
 *.py[cod]
 *$py.class
+
+daily_trace_gases/utils/maap_secrets.py

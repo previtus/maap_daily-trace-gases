@@ -1,3 +1,9 @@
+# ### <LOCAL OVERRIDE>
+# import os
+# from utils.maap_secrets import MAAP_PGT
+# os.environ["MAAP_PGT"] = MAAP_PGT
+# ### </LOCAL OVERRIDE>
+
 from maap.maap import MAAP
 import os
 import os.path
