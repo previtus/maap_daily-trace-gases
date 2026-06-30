@@ -5,5 +5,9 @@ output/*
 .idea/
 
 *.log
+*.pyc
 
 .DS_STORE
+__pycache__/
+*.py[cod]
+*$py.class
