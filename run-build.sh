@@ -9,7 +9,7 @@ pip install torch==2.12.0 torchvision --index-url https://download.pytorch.org/w
 pip install -U segmentation-models-pytorch
 pip install -U "huggingface_hub[cli]"
 
-hf download previtus/JPL_TRACE_GASES_MODELS --local-dir ${basedir}/daily-trace-gases/models/JPL_TRACE_GASES_MODELS
+hf download previtus/JPL_TRACE_GASES_MODELS --local-dir ${basedir}/daily_trace_gases/models/JPL_TRACE_GASES_MODELS
 pip install maap-py
 pip install gdown
 pip install fiona

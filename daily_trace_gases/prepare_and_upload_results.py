@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(description='Codebase: Results uploader.')
 parser.add_argument('-gases', help='Which trace gases? Multiple are possible, separated by comma (options: ch4, nh3, no2 and co)', default='ch4,nh3,no2,co')
 parser.add_argument('-tile', help='Which EMIT tile to run? (e.g. EMIT_L1B_RAD_001_20260102T143123_2600209_005)', default='EMIT_L1B_RAD_001_20260102T143123_2600209_005')
 parser.add_argument('-results_folder', help='Folder to save results to', default='./run_data/results')
-parser.add_argument('-basedir', help='Location of this code', default='daily-trace-gases/')
+parser.add_argument('-basedir', help='Location of this code', default='daily_trace_gases/')
 
 def hf_upload_with_retry(files_to_upload, target_folder, gas, tile_ID, hf_repo, max_retries = 10):
     api = HfApi()
