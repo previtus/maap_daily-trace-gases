@@ -97,14 +97,31 @@ def compute_scores(sig, ratio, deg_poly, wl_only_in_fit):
 
     return d_norm_total, optimized_alpha, ratio_p, fitsig_p, mag_total, fitsig, polyn
 
-def annotate_and_save_vectors(tile_name, vectors, scores_per_polygon, vectors_json_path, save_as, description = "__HyperMARS_ensemble_of_5_SCORED"):
+def uid_from_emit_name(tile_name = "EMIT_L1B_RAD_001_20260102T143123_2600209_005", idx = 0):
+    date_time_str = tile_name.split("_")[4]
+    uid = "e_"+date_time_str+"_"+str(idx) # ==> e_20260102T143123_0
+    return uid
+
+def annotate_and_save_vectors(tile_name, vectors, scores_per_polygon, vectors_json_path, save_as, description = "__HyperMARS_ensemble_of_5_SCORED",
+                              plotting_data_per_polygon = None):
 
     plumes_vector = vec_load(vectors_json_path)
     plume_polygons = []
     for idx, row in plumes_vector.iterrows():
         p = {}
+
+        # Let's keep a UID
+        p["uid"] = uid_from_emit_name(tile_name, idx)
+
         for key in row.keys():
             p[key] = row[key]
+
+        # Let's actually keep the plotting data in the saved vectors
+        if plotting_data_per_polygon is not None:
+            plotting_data = plotting_data_per_polygon[idx]
+            for plot_key in plotting_data.keys():
+                p[plot_key] = plotting_data[plot_key].tolist()
+
         plume_polygons.append(p)
 
     for pol_idx, polygon in enumerate(vectors):
@@ -247,5 +264,6 @@ def score_ch4(tile_ID, results_folder, raws_folder, use_ensemble = True):
     scores_per_polygon, plotting_data_per_polygon = run_plume_vetting_on_scene(rdn, cmf, mask, vectors, cmf_path, scene_target_signature)
 
     print("Saving scored vectors")
-    annotate_and_save_vectors(tile_ID, vectors, scores_per_polygon, predictions_path, scored_predictions_path, description="ModelPredsScored_ch4")
+    annotate_and_save_vectors(tile_ID, vectors, scores_per_polygon, predictions_path, scored_predictions_path, description="ModelPredsScored_ch4",
+                              plotting_data_per_polygon=plotting_data_per_polygon)
 

@@ -36,10 +36,11 @@ def score_trace_gas(gas, tile_ID, target_file, results_folder, raws_folder):
     if gas == "nh3": target_signature = target_signature * 25
 
     preds_name = gas + "-prediction.geojson"
-    scores_per_polygon, _ = get_score_for_tile(tile_ID, raws_folder, results_folder,
+    scores_per_polygon, plotting_data_per_polygon = get_score_for_tile(tile_ID, raws_folder, results_folder,
                          vectors, cmf_for_gas, gas, target_signature=target_signature,
                          min_polygon_size=min_polygon_size, debug_viz=debug_viz, debug_jump_to=debug_jump_to, preds_name=preds_name)
 
-    annotate_and_save_vectors(tile_ID, vectors, scores_per_polygon, save_vectors_path, save_scored_vectors_path, description="ModelPredsScored_" + gas)
+    annotate_and_save_vectors(tile_ID, vectors, scores_per_polygon, save_vectors_path, save_scored_vectors_path, description="ModelPredsScored_" + gas,
+                              plotting_data_per_polygon=plotting_data_per_polygon)
 
     return save_scored_vectors_path
