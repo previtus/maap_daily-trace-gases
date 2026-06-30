@@ -12,7 +12,7 @@ parser.add_argument('-gases', help='Which trace gases? Multiple are possible, se
 parser.add_argument('-tile', help='Which EMIT tile to run? (e.g. EMIT_L1B_RAD_001_20260102T143123_2600209_005)', default='EMIT_L1B_RAD_001_20260102T143123_2600209_005')
 parser.add_argument('-raws_folder', help='Folder to store intermediate files', default='./run_data/intermediates_folder')
 parser.add_argument('-results_folder', help='Folder to save results to', default='./run_data/results')
-parser.add_argument('-basedir', help='Location of this code', default='daily-trace-gases/')
+parser.add_argument('-basedir', help='Location of this code', default='daily_trace_gases/')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     raws_folder = args.raws_folder
 
     # ### <LOCAL OVERRIDE>
-    # basedir = "/Users/ruzicka/Downloads/CODES/maap_daily-trace-gases/daily-trace-gases"
+    # basedir = "/Users/ruzicka/Downloads/CODES/maap_daily-trace-gases/daily_trace_gases"
     # results_folder = "/Users/ruzicka/Downloads/DATA/_intermediate_folder/outputs_tmp"
     # raws_folder = "/Users/ruzicka/Downloads/DATA/_intermediate_folder"
     # gases = "ch4"
