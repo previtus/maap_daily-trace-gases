@@ -4,11 +4,7 @@
 import os.path
 from timeit import default_timer as timer
 import argparse
-from pipeline.run_for_ch4 import run_for_ch4
-from pipeline.run_for_trace_gas import run_for_trace_gas
-from utils.rio_utils import mkdir
 from utils.paths import set_basedir
-from utils.paths import codebase_folder, models_storage
 from detect_trace_gas import detect_trace_gas
 
 parser = argparse.ArgumentParser(description='Codebase: Fully Automatic Trace Gas Plume Detection.')
@@ -26,10 +22,18 @@ if __name__ == '__main__':
     gases = args.gases
 
     basedir = args.basedir
-    set_basedir(basedir)
 
     results_folder = args.results_folder
     raws_folder = args.raws_folder
+
+    # ### <LOCAL OVERRIDE>
+    # basedir = "/Users/ruzicka/Downloads/CODES/maap_daily-trace-gases/daily-trace-gases"
+    # results_folder = "/Users/ruzicka/Downloads/DATA/_intermediate_folder/outputs_tmp"
+    # raws_folder = "/Users/ruzicka/Downloads/DATA/_intermediate_folder"
+    # gases = "ch4"
+    # tile_ID = "EMIT_L1B_RAD_001_20260102T143123_2600209_005"
+    # set_basedir(basedir)
+    # ### </LOCAL OVERRIDE>
 
     if "," in gases:
         gases_list = gases.split(",")
