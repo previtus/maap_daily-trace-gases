@@ -32,8 +32,9 @@ if __name__ == '__main__':
     # raws_folder = "/Users/ruzicka/Downloads/DATA/_intermediate_folder"
     # gases = "ch4"
     # tile_ID = "EMIT_L1B_RAD_001_20260102T143123_2600209_005"
-    # set_basedir(basedir)
     # ### </LOCAL OVERRIDE>
+
+    set_basedir(basedir)
 
     if "," in gases:
         gases_list = gases.split(",")
